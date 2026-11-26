@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Máy tính cầm tay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="calculator" aria-label="Máy tính cầm tay">
+    <form id="calc-form">
+      <section class="screen" aria-label="Màn hình hiển thị">
+        <label for="display" class="sr-only">Kết quả</label>
+        <input type="text" id="display" readonly value="0">
+      </section>
+
+      <section class="keypad" aria-label="Bàn phím máy tính">
+        <button type="button" class="btn btn-action" onclick="clearDisplay()">C</button>
+        <button type="button" class="btn btn-action" onclick="deleteLast()">DEL</button>
+        <button type="button" class="btn btn-action" onclick="appendValue('%')">%</button>
+        <button type="button" class="btn btn-operator" onclick="appendValue('/')">÷</button>
+
+        <button type="button" class="btn btn-num" onclick="appendValue('7')">7</button>
+        <button type="button" class="btn btn-num" onclick="appendValue('8')">8</button>
+        <button type="button" class="btn btn-num" onclick="appendValue('9')">9</button>
+        <button type="button" class="btn btn-operator" onclick="appendValue('*')">×</button>
+
+        <button type="button" class="btn btn-equal" onclick="calculate()">=</button>
+      </section>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
