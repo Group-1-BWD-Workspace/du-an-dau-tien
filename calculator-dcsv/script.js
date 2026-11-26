@@ -52,3 +52,110 @@ document.addEventListener('keydown', function (event) {
     clearDisplay();
   }
 });
+
+// Chuyển giữa máy tính có CSS và máy tính HTML thuần
+let styledCalculator;
+let simpleCalculator;
+let simpleForm;
+let simpleFirstNumber;
+let simpleSecondNumber;
+let simpleOperator;
+let simpleResult;
+let viewToggle;
+let calculatorStylesheet;
+let simpleMode = false;
+
+// Khởi tạo sau khi toàn bộ HTML đã được trình duyệt đọc xong
+document.addEventListener('DOMContentLoaded', function () {
+  styledCalculator = document.querySelector('.calculator');
+  simpleCalculator = document.getElementById('simple-calculator');
+  simpleForm = document.getElementById('simple-calc-form');
+  simpleFirstNumber = document.getElementById('simple-first-number');
+  simpleSecondNumber = document.getElementById('simple-second-number');
+  simpleOperator = document.getElementById('simple-operator');
+  simpleResult = document.getElementById('simple-result');
+  viewToggle = document.getElementById('view-toggle');
+  calculatorStylesheet = document.querySelector('link[href="style.css"]');
+});
+
+function toggleCalculatorView() {
+  simpleMode = !simpleMode;
+  styledCalculator.style.display = simpleMode ? 'none' : 'block';
+  simpleCalculator.hidden = !simpleMode;
+  if (calculatorStylesheet) {
+    calculatorStylesheet.disabled = simpleMode;
+  }
+  viewToggle.textContent = simpleMode ? 'Chuyển sang bản có CSS' : 'Chuyển sang bản thuần';
+  if (simpleMode) {
+    simpleFirstNumber.focus();
+  } else {
+    document.getElementById('display').focus();
+  }
+}
+
+function simpleClearDisplay() {
+  simpleForm.reset();
+  simpleResult.textContent = '';
+  simpleFirstNumber.focus();
+}
+
+function simpleCalculate() {
+  const firstValue = simpleFirstNumber.value.trim();
+  const secondValue = simpleSecondNumber.value.trim();
+
+  if (firstValue === '' || secondValue === '') {
+    simpleResult.textContent = 'Vui lòng nhập đủ hai số.';
+    return;
+  }
+
+  const firstNumber = Number(firstValue);
+  const secondNumber = Number(secondValue);
+
+  if (!Number.isFinite(firstNumber) || !Number.isFinite(secondNumber)) {
+    simpleResult.textContent = 'Lỗi dữ liệu.';
+    return;
+  }
+
+  let result;
+  switch (simpleOperator.value) {
+    case '+':
+      result = firstNumber + secondNumber;
+      break;
+    case '-':
+      result = firstNumber - secondNumber;
+      break;
+    case '*':
+      result = firstNumber * secondNumber;
+      break;
+    case '/':
+      result = secondNumber === 0 ? 'Không thể chia cho 0.' : firstNumber / secondNumber;
+      break;
+    default:
+      result = 'Phép tính không hợp lệ.';
+  }
+
+  simpleResult.textContent = result;
+}
+
+// Bàn phím điều khiển bản đang hiển thị
+document.addEventListener('keydown', function (event) {
+  if (!simpleMode || !simpleCalculator.contains(event.target)) {
+    return;
+  }
+
+  if (event.key === 'Enter' && !(event.target instanceof HTMLButtonElement)) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    simpleCalculate();
+    return;
+  }
+
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    simpleClearDisplay();
+    return;
+  }
+
+  event.stopImmediatePropagation();
+}, true);

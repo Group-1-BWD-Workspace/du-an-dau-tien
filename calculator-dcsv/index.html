@@ -43,5 +43,31 @@
   </main>
 
   <script src="script.js"></script>
+
+  <button id="view-toggle" type="button" onclick="toggleCalculatorView()" style="position: fixed; top: 12px; left: 12px; z-index: 1000; padding: 8px 12px; cursor: pointer;">Chuyển sang bản thuần</button>
+
+  <main id="simple-calculator" aria-label="Máy tính bản HTML thuần" style="padding-top: 56px;" hidden>
+    <h1>Máy tính đơn giản</h1>
+    <form id="simple-calc-form" onsubmit="simpleCalculate(); return false;">
+      <label for="simple-first-number">Số thứ nhất:</label>
+      <input id="simple-first-number" type="text" inputmode="decimal" required>
+      <br><br>
+      <label for="simple-operator">Phép tính:</label>
+      <select id="simple-operator">
+        <option value="+">Cộng</option>
+        <option value="-">Trừ</option>
+        <option value="*">Nhân</option>
+        <option value="/">Chia</option>
+      </select>
+      <br><br>
+      <label for="simple-second-number">Số thứ hai:</label>
+      <input id="simple-second-number" type="text" inputmode="decimal" required>
+      <br><br>
+      <button type="submit">Tính kết quả</button>
+      <button type="button" onclick="simpleClearDisplay()">Nhập lại</button>
+    </form>
+    <h1>Kết quả</h1>
+    <output id="simple-result" aria-live="polite"></output>
+  </main>
 </body>
 </html>
