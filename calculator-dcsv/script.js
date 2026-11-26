@@ -23,9 +23,12 @@ function deleteLast() {
 }
 
 // Tính kết quả
+// Tính kết quả
 function calculate() {
   try {
-    const result = new Function('return ' + display.value)();
+    // Tự động đổi các số có dấu % (ví dụ 80%) thành (80/100)
+    const expression = display.value.replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
+    const result = new Function('return ' + expression)();
     
     if (!isFinite(result)) {
       display.value = 'Lỗi';
@@ -36,3 +39,16 @@ function calculate() {
     display.value = 'Lỗi';
   }
 }
+document.addEventListener('keydown', function (event) {
+  const key = event.key;
+  if ((key >= '0' && key <= '9') || ['+', '-', '*', '/', '%', '.'].includes(key)) {
+    appendValue(key);
+  } else if (key === 'Enter') {
+    event.preventDefault();
+    calculate();
+  } else if (key === 'Backspace') {
+    deleteLast();
+  } else if (key === 'Escape') {
+    clearDisplay();
+  }
+});
